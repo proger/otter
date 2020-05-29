@@ -86,7 +86,7 @@ awk -vOFS='\t' -v w=$w '{print w, $1}' $dir/lexicon.txt >> $dir/lexicon.arpa
 echo '' >> $dir/lexicon.arpa
 echo '\end\' >> $dir/lexicon.arpa
 
-arpa2fst --disambig-symbol=#0 --read-symbol-table=$dir/lexicon1.txt $dir/lexicon.arpa $dir/G.fst
+arpa2fst --keep-symbols --disambig-symbol=#0 --read-symbol-table=$dir/lexicon1.txt $dir/lexicon.arpa $dir/G.fst
 
 fstisstochastic $dir/G.fst
 

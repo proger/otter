@@ -65,12 +65,12 @@ struct Model {
         feature_info_.silence_weighting_config.silence_phones_str = endpoint_config_.silence_phones;
 
         OnlineIvectorExtractionConfig ivector_extraction_opts;
-        ivector_extraction_opts.splice_config_rxfilename = model_path_str_ + "/ivector/splice.conf";
-        ivector_extraction_opts.cmvn_config_rxfilename = model_path_str_ + "/ivector/online_cmvn.conf";
-        ivector_extraction_opts.lda_mat_rxfilename = model_path_str_ + "/ivector/final.mat";
-        ivector_extraction_opts.global_cmvn_stats_rxfilename = model_path_str_ + "/ivector/global_cmvn.stats";
-        ivector_extraction_opts.diag_ubm_rxfilename = model_path_str_ + "/ivector/final.dubm";
-        ivector_extraction_opts.ivector_extractor_rxfilename = model_path_str_ + "/ivector/final.ie";
+        ivector_extraction_opts.splice_config_rxfilename = model_path_str_ + "/ivector_extractor/splice_opts";
+        ivector_extraction_opts.cmvn_config_rxfilename = model_path_str_ + "/ivector_extractor/online_cmvn.conf";
+        ivector_extraction_opts.lda_mat_rxfilename = model_path_str_ + "/ivector_extractor/final.mat";
+        ivector_extraction_opts.global_cmvn_stats_rxfilename = model_path_str_ + "/ivector_extractor/global_cmvn.stats";
+        ivector_extraction_opts.diag_ubm_rxfilename = model_path_str_ + "/ivector_extractor/final.dubm";
+        ivector_extraction_opts.ivector_extractor_rxfilename = model_path_str_ + "/ivector_extractor/final.ie";
         feature_info_.use_ivectors = true;
         feature_info_.ivector_extractor_info.Init(ivector_extraction_opts);
     }
@@ -152,13 +152,6 @@ struct Model {
             winfo_ = NULL;
         }
     }
-
-    void Register(OptionsItf *po) {
-        feature_config_.Register(po);
-        nnet3_decoding_config_.Register(po);
-        endpoint_config_.Register(po);
-        decodable_opts_.Register(po);
-    }
 };
 
 int
@@ -168,7 +161,10 @@ main(int argc, char **argv)
 
     ParseOptions po("spec <model-dir> <wav-rspecifier>");
 
-    model_->Register(&po);
+    model_->feature_config_.Register(&po); // TODO
+    model_->nnet3_decoding_config_.Register(&po);
+    model_->endpoint_config_.Register(&po);
+    model_->decodable_opts_.Register(&po);
 
     po.Read(argc, argv);
     if (po.NumArgs() != 2) {
