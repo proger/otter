@@ -1,6 +1,6 @@
 all: spec
 
-OBJS= kaldi_recognizer.o main.o model.o spk_model.o vosk_api.o
+OBJS= kaldi_recognizer.o main.o model.o spk_model.o
 
 KALDI_ROOT= $(HOME)/vox/src/kaldi/src
 
