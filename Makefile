@@ -1,6 +1,6 @@
 all: spec
 
-OBJS= kaldi_recognizer.o main.o model.o spk_model.o
+OBJS= main.o
 
 KALDI_ROOT= $(HOME)/vox/src/kaldi/src
 
@@ -22,3 +22,7 @@ spec: $(OBJS)
 
 %.o: %.cc
 	c++ $(CXXFLAGS) -o $@ -c $<
+
+.PHONY: test
+test:
+	./spec --min-active=200 --max-active=300 --acoustic-scale=1.0 --frame-subsampling-factor=3 --endpoint.silence-phones=1:2:3:4:5:6:7:8:9:10 model scp:wav.scp
