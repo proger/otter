@@ -43,41 +43,6 @@ static FstRegisterer<NGramFst<StdArc>> NGramFst_StdArc_registerer;
 
 }  // namespace fst
 
-#ifdef __ANDROID__
-#include <android/log.h>
-static void KaldiLogHandler(const LogMessageEnvelope &env, const char *message)
-{
-  int priority;
-  if (env.severity > GetVerboseLevel())
-      return;
-
-  if (env.severity > LogMessageEnvelope::kInfo) {
-    priority = ANDROID_LOG_VERBOSE;
-  } else {
-    switch (env.severity) {
-    case LogMessageEnvelope::kInfo:
-      priority = ANDROID_LOG_INFO;
-      break;
-    case LogMessageEnvelope::kWarning:
-      priority = ANDROID_LOG_WARN;
-      break;
-    case LogMessageEnvelope::kAssertFailed:
-      priority = ANDROID_LOG_FATAL;
-      break;
-    case LogMessageEnvelope::kError:
-    default: // If not the ERROR, it still an error!
-      priority = ANDROID_LOG_ERROR;
-      break;
-    }
-  }
-
-  std::stringstream full_message;
-  full_message << env.func << "():" << env.file << ':'
-               << env.line << ") " << message;
-
-  __android_log_print(priority, "VoskAPI", "%s", full_message.str().c_str());
-}
-#else
 static void KaldiLogHandler(const LogMessageEnvelope &env, const char *message)
 {
   if (env.severity > GetVerboseLevel())
@@ -86,26 +51,26 @@ static void KaldiLogHandler(const LogMessageEnvelope &env, const char *message)
   // Modified default Kaldi logging so we can disable LOG messages.
   std::stringstream full_message;
   if (env.severity > LogMessageEnvelope::kInfo) {
-    full_message << "VLOG[" << env.severity << "] (";
+    full_message << "V[" << env.severity << "] (";
   } else {
     switch (env.severity) {
     case LogMessageEnvelope::kInfo:
-      full_message << "LOG (";
+      full_message << "L (";
       break;
     case LogMessageEnvelope::kWarning:
-      full_message << "WARNING (";
+      full_message << "W (";
       break;
     case LogMessageEnvelope::kAssertFailed:
       full_message << "ASSERTION_FAILED (";
       break;
     case LogMessageEnvelope::kError:
     default: // If not the ERROR, it still an error!
-      full_message << "ERROR (";
+      full_message << "E (";
       break;
     }
   }
   // Add other info from the envelope and the message text.
-  full_message << "VoskAPI" << ':'
+  full_message << "" << ':'
                << env.func << "():" << env.file << ':'
                << env.line << ") " << message;
 
@@ -113,7 +78,6 @@ static void KaldiLogHandler(const LogMessageEnvelope &env, const char *message)
   full_message << "\n";
   std::cerr << full_message.str();
 }
-#endif
 
 Model::Model(const char *model_path) : model_path_str_(model_path) {
 

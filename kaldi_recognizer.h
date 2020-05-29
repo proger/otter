@@ -38,15 +38,14 @@ class KaldiRecognizer {
         bool AcceptWaveform(const char *data, int len);
         bool AcceptWaveform(const short *sdata, int len);
         bool AcceptWaveform(const float *fdata, int len);
+        bool AcceptWaveform(Vector<BaseFloat> &wdata);
         const char* Result();
         const char* FinalResult();
         const char* PartialResult();
 
     private:
-        void InitRescoring();
         void CleanUp();
         void UpdateSilenceWeights();
-        bool AcceptWaveform(Vector<BaseFloat> &wdata);
         void GetSpkVector(Vector<BaseFloat> &xvector);
 
         Model *model_;
