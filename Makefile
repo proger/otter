@@ -25,4 +25,4 @@ spec: $(OBJS)
 
 .PHONY: test
 test:
-	./spec --min-active=200 --max-active=300 --acoustic-scale=1.0 --frame-subsampling-factor=3 --endpoint.silence-phones=1:2:3:4:5:6:7:8:9:10 model scp:wav.scp
+	./spec --min-active=200 --max-active=300 --acoustic-scale=1.0 --frame-subsampling-factor=3 --endpoint.silence-phones=1:2:3:4:5:6:7:8:9:10 --mfcc-config=model/mfcc.conf model scp:wav.scp

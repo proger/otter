@@ -41,7 +41,9 @@ struct Model {
     OnlineEndpointConfig endpoint_config_;
     LatticeFasterDecoderConfig nnet3_decoding_config_;
     NnetSimpleLoopedComputationOptions decodable_opts_;
+
     OnlineNnet2FeaturePipelineInfo feature_info_;
+    OnlineNnet2FeaturePipelineConfig feature_config_;
 
     DecodableNnetSimpleLoopedInfo *decodable_info_;
     TransitionModel *trans_model_;
@@ -152,6 +154,7 @@ struct Model {
     }
 
     void Register(OptionsItf *po) {
+        feature_config_.Register(po);
         nnet3_decoding_config_.Register(po);
         endpoint_config_.Register(po);
         decodable_opts_.Register(po);
